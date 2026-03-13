@@ -3,10 +3,10 @@
 ---
 ## How to Install
 
-To install this plugin into your PS, you can do it three ways:
-0- Double click .ccx file
-1- Use the Adobe UXP software, and select the manifest file; from there load into Photoshop
-2- Place the plugin folder inside the UXP folder - Refer to: https://www.youtube.com/watch?v=BY9-3mhR3Vc
+*To install this plugin into your PS, you can do it three ways:
+*0- Double click .ccx file
+*1- Use the Adobe UXP software, and select the manifest file; from there load into Photoshop
+*2- Place the plugin folder inside the UXP folder - Refer to: https://www.youtube.com/watch?v=BY9-3mhR3Vc
 
 
 ## Overview
