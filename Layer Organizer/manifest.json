@@ -1,0 +1,46 @@
+{
+    "id": "net.synkit.layerorganizer",
+    "name": "Layer Organizer",
+    "version": "1.0.0",
+    "main": "index.html",
+    "host": {
+        "app": "PS",
+        "minVersion": "24.0.0"
+    },
+    "manifestVersion": 5,
+    "icons": [
+        {
+            "width": 23,
+            "height": 23,
+            "path": "icons/pluginIcon.png",
+            "scale": [1, 2],
+            "theme": ["darkest", "dark", "light", "lightest", "all"]
+        }
+    ],
+    "entrypoints": [
+        {
+            "type": "panel",
+            "id": "mainPanel",
+            "main": "index.html",
+            "label": {
+                "default": "Layer Organizer"
+            },
+            "icons": [
+                {
+                    "width": 23,
+                    "height": 23,
+                    "path": "icons/pluginIcon.png",
+                    "scale": [1, 2],
+                    "theme": ["darkest", "dark", "light", "lightest", "all"]
+                }
+            ],
+            "minimumSize": { "width": 300, "height": 384 },
+            "maximumSize": { "width": 430, "height": 384 },
+            "preferredDockedSize": { "width": 300, "height": 384 },
+            "preferredFloatingSize": { "width": 300, "height": 384 }
+        }
+    ],
+    "requiredPermissions": {
+        "clipboard": "readAndWrite"
+    }
+}

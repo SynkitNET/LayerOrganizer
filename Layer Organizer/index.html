@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Layer Organizer</title>
+  <style>
+    * { margin: 0; padding: 0; }
+
+    html, body {
+      font-family: "Segoe UI", -apple-system, sans-serif;
+      background: #b4b4b4;
+      color: #000;
+      font-size: 11px;
+      padding: 0;
+    }
+
+    .tab-bar {
+      display: flex;
+      align-items: center;
+      padding: 6px 12px;
+      background: #b8b8b8;
+      border-bottom: 1px solid #999;
+      margin-bottom: 0;
+    }
+    .tab-bar .tab-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: #000;
+      letter-spacing: 0.3px;
+    }
+    .tab-bar .tab-credit {
+      font-size: 9px;
+      font-weight: 600;
+      color: #444;
+      margin-left: auto;
+      letter-spacing: 0.3px;
+    }
+
+    .panel-body {
+      padding: 18px 12px 0;
+    }
+
+    .main-btn {
+      display: block;
+      width: 100%;
+      padding: 10px 16px;
+      margin: 0;
+      font-size: 11px;
+      font-weight: 600;
+      background: #ffae00;
+      border: 1px solid #000;
+      border-radius: 0;
+      color: #000;
+      cursor: pointer;
+    }
+    .main-btn:hover { background: #e69d00; }
+    .main-btn:disabled { background: #999; color: #666; cursor: not-allowed; }
+
+    .options-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 0;
+      padding: 8px 0;
+    }
+    .toggle-label {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      font-size: 9px;
+      color: #444;
+      margin-left: -5px;
+    }
+    .toggle-label span {
+      margin-left: 3px;
+    }
+    .toggle-label input[type="checkbox"] {
+      accent-color: #ffae00;
+      cursor: pointer;
+      margin: 0;
+    }
+    .toggle-label:hover span { color: #000; }
+
+    .icon-btns {
+      display: flex;
+      align-items: center;
+    }
+    .icon-btn {
+      font-size: 18px;
+      cursor: pointer;
+      color: #444;
+      user-select: none;
+      line-height: 1;
+      margin-left: 8px;
+    }
+    .icon-btn:first-child {
+      margin-left: 0;
+    }
+    .icon-btn:hover { color: #000; }
+    .icon-btn.disabled {
+      color: #999;
+      cursor: default;
+      opacity: 0.4;
+    }
+    .icon-btn.disabled:hover { color: #999; }
+
+    .section {
+      margin-top: 8px;
+      margin-left: -12px;
+      margin-right: -12px;
+      background: #1a1a1a;
+      padding: 10px 12px;
+    }
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .section-title {
+      font-size: 9px;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .reset-btn {
+      font-size: 16px;
+      color: #666;
+      background: none;
+      border: none;
+      cursor: pointer;
+      margin-left: auto;
+      margin-right: 0;
+      padding: 0;
+      line-height: 1;
+    }
+    .reset-btn:hover { color: #aaa; }
+
+    .color-grid { font-size: 0; }
+    .color-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 6px;
+      background: #2a2a2a;
+      border-radius: 3px;
+      margin: 0 0 3px 0;
+      width: 100%;
+      font-size: 11px;
+    }
+    .color-label { font-size: 9px; color: #ccc; }
+    .color-dots { display: flex; }
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 1.5px solid transparent;
+      margin-left: 2px;
+    }
+    .dot:first-child { margin-left: 0; }
+    .dot:hover { transform: scale(1.15); }
+    .dot.selected { border-color: #fff; }
+    .dot.c-none { background: #444; }
+    .dot.c-red { background: #e34850; }
+    .dot.c-orange { background: #e68619; }
+    .dot.c-yellow { background: #dfbf00; }
+    .dot.c-green { background: #2d9d78; }
+    .dot.c-seafoam { background: #20a69a; }
+    .dot.c-blue { background: #2680eb; }
+    .dot.c-indigo { background: #5c5ce0; }
+    .dot.c-magenta { background: #e54887; }
+    .dot.c-fuchsia { background: #c038cc; }
+    .dot.c-violet { background: #9256d9; }
+    .dot.c-gray { background: #6e6e6e; }
+
+    .footer {
+      margin-top: 10px;
+      text-align: center;
+      font-size: 8px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="tab-bar">
+    <span class="tab-label">95% accurate. 100% faster.</span>
+    <span class="tab-credit">SYNKIT.NET</span>
+  </div>
+
+  <div class="panel-body">
+  <button class="main-btn" id="organizeBtn">Organize Layers</button>
+
+  <div class="options-row">
+    <label class="toggle-label" title="Delete hidden layers before organizing">
+      <input type="checkbox" id="autoDeleteHiddenToggle">
+      <span>Delete Hidden</span>
+    </label>
+    <div class="icon-btns">
+      <span class="icon-btn" id="releaseDeleteHiddenBtn" title="Delete hidden layers">&#x25C9;</span>
+      <span class="icon-btn disabled" id="undoOrganizeBtn" title="Undo organize">&#x21A9;</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">Group Colors</span>
+      <span class="reset-btn" id="resetBtn">&#x21BA;</span>
+    </div>
+    <div class="color-grid" id="colorGrid">
+      <div class="color-row" data-type="background">
+        <span class="color-label">Background</span>
+        <div class="color-dots">
+          <div class="dot c-none" data-c="none"></div>
+          <div class="dot c-red" data-c="red"></div>
+          <div class="dot c-orange" data-c="orange"></div>
+          <div class="dot c-yellow" data-c="yellow"></div>
+          <div class="dot c-green selected" data-c="green"></div>
+          <div class="dot c-seafoam" data-c="seafoam"></div>
+          <div class="dot c-blue" data-c="blue"></div>
+          <div class="dot c-indigo" data-c="indigo"></div>
+          <div class="dot c-magenta" data-c="magenta"></div>
+          <div class="dot c-fuchsia" data-c="fuchsia"></div>
+          <div class="dot c-violet" data-c="violet"></div>
+          <div class="dot c-gray" data-c="gray"></div>
+        </div>
+      </div>
+      <div class="color-row" data-type="subject">
+        <span class="color-label">Subject</span>
+        <div class="color-dots">
+          <div class="dot c-none" data-c="none"></div>
+          <div class="dot c-red" data-c="red"></div>
+          <div class="dot c-orange selected" data-c="orange"></div>
+          <div class="dot c-yellow" data-c="yellow"></div>
+          <div class="dot c-green" data-c="green"></div>
+          <div class="dot c-seafoam" data-c="seafoam"></div>
+          <div class="dot c-blue" data-c="blue"></div>
+          <div class="dot c-indigo" data-c="indigo"></div>
+          <div class="dot c-magenta" data-c="magenta"></div>
+          <div class="dot c-fuchsia" data-c="fuchsia"></div>
+          <div class="dot c-violet" data-c="violet"></div>
+          <div class="dot c-gray" data-c="gray"></div>
+        </div>
+      </div>
+      <div class="color-row" data-type="headline">
+        <span class="color-label">Headline</span>
+        <div class="color-dots">
+          <div class="dot c-none" data-c="none"></div>
+          <div class="dot c-red" data-c="red"></div>
+          <div class="dot c-orange" data-c="orange"></div>
+          <div class="dot c-yellow selected" data-c="yellow"></div>
+          <div class="dot c-green" data-c="green"></div>
+          <div class="dot c-seafoam" data-c="seafoam"></div>
+          <div class="dot c-blue" data-c="blue"></div>
+          <div class="dot c-indigo" data-c="indigo"></div>
+          <div class="dot c-magenta" data-c="magenta"></div>
+          <div class="dot c-fuchsia" data-c="fuchsia"></div>
+          <div class="dot c-violet" data-c="violet"></div>
+          <div class="dot c-gray" data-c="gray"></div>
+        </div>
+      </div>
+      <div class="color-row" data-type="text">
+        <span class="color-label">Text</span>
+        <div class="color-dots">
+          <div class="dot c-none" data-c="none"></div>
+          <div class="dot c-red" data-c="red"></div>
+          <div class="dot c-orange" data-c="orange"></div>
+          <div class="dot c-yellow" data-c="yellow"></div>
+          <div class="dot c-green" data-c="green"></div>
+          <div class="dot c-seafoam" data-c="seafoam"></div>
+          <div class="dot c-blue selected" data-c="blue"></div>
+          <div class="dot c-indigo" data-c="indigo"></div>
+          <div class="dot c-magenta" data-c="magenta"></div>
+          <div class="dot c-fuchsia" data-c="fuchsia"></div>
+          <div class="dot c-violet" data-c="violet"></div>
+          <div class="dot c-gray" data-c="gray"></div>
+        </div>
+      </div>
+      <div class="color-row" data-type="graphics">
+        <span class="color-label">Graphics</span>
+        <div class="color-dots">
+          <div class="dot c-none" data-c="none"></div>
+          <div class="dot c-red" data-c="red"></div>
+          <div class="dot c-orange" data-c="orange"></div>
+          <div class="dot c-yellow" data-c="yellow"></div>
+          <div class="dot c-green" data-c="green"></div>
+          <div class="dot c-seafoam" data-c="seafoam"></div>
+          <div class="dot c-blue" data-c="blue"></div>
+          <div class="dot c-indigo" data-c="indigo"></div>
+          <div class="dot c-magenta" data-c="magenta"></div>
+          <div class="dot c-fuchsia" data-c="fuchsia"></div>
+          <div class="dot c-violet selected" data-c="violet"></div>
+          <div class="dot c-gray" data-c="gray"></div>
+        </div>
+      </div>
+      <div class="color-row" data-type="logo">
+        <span class="color-label">Logo</span>
+        <div class="color-dots">
+          <div class="dot c-none" data-c="none"></div>
+          <div class="dot c-red selected" data-c="red"></div>
+          <div class="dot c-orange" data-c="orange"></div>
+          <div class="dot c-yellow" data-c="yellow"></div>
+          <div class="dot c-green" data-c="green"></div>
+          <div class="dot c-seafoam" data-c="seafoam"></div>
+          <div class="dot c-blue" data-c="blue"></div>
+          <div class="dot c-indigo" data-c="indigo"></div>
+          <div class="dot c-magenta" data-c="magenta"></div>
+          <div class="dot c-fuchsia" data-c="fuchsia"></div>
+          <div class="dot c-violet" data-c="violet"></div>
+          <div class="dot c-gray" data-c="gray"></div>
+        </div>
+      </div>
+      <div class="color-row" data-type="texture">
+        <span class="color-label">Texture</span>
+        <div class="color-dots">
+          <div class="dot c-none" data-c="none"></div>
+          <div class="dot c-red" data-c="red"></div>
+          <div class="dot c-orange" data-c="orange"></div>
+          <div class="dot c-yellow" data-c="yellow"></div>
+          <div class="dot c-green" data-c="green"></div>
+          <div class="dot c-seafoam" data-c="seafoam"></div>
+          <div class="dot c-blue" data-c="blue"></div>
+          <div class="dot c-indigo" data-c="indigo"></div>
+          <div class="dot c-magenta" data-c="magenta"></div>
+          <div class="dot c-fuchsia" data-c="fuchsia"></div>
+          <div class="dot c-violet" data-c="violet"></div>
+          <div class="dot c-gray selected" data-c="gray"></div>
+        </div>
+      </div>
+      <div class="color-row" data-type="effect">
+        <span class="color-label">Effects</span>
+        <div class="color-dots">
+          <div class="dot c-none" data-c="none"></div>
+          <div class="dot c-red" data-c="red"></div>
+          <div class="dot c-orange" data-c="orange"></div>
+          <div class="dot c-yellow" data-c="yellow"></div>
+          <div class="dot c-green" data-c="green"></div>
+          <div class="dot c-seafoam selected" data-c="seafoam"></div>
+          <div class="dot c-blue" data-c="blue"></div>
+          <div class="dot c-indigo" data-c="indigo"></div>
+          <div class="dot c-magenta" data-c="magenta"></div>
+          <div class="dot c-fuchsia" data-c="fuchsia"></div>
+          <div class="dot c-violet" data-c="violet"></div>
+          <div class="dot c-gray" data-c="gray"></div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">Layer Organizer v1.0</div>
+  </div>
+  </div>
+
+  <script src="index.js"></script>
+</body>
+</html>
