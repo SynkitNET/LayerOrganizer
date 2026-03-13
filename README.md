@@ -2,7 +2,9 @@
 *This plugin was created using Claude Code - I encourage you, the user, to train it yourself and modify the signal system to fit your needs. Refer to the "Hive-Mind" MD file for more context. 
 ---
 ## How to Install
-To install this plugin into your PS, you can do it two ways:
+
+To install this plugin into your PS, you can do it three ways:
+0- Double click .ccx file
 1- Use the Adobe UXP software, and select the manifest file; from there load into Photoshop
 2- Place the plugin folder inside the UXP folder - Refer to: https://www.youtube.com/watch?v=BY9-3mhR3Vc
 
