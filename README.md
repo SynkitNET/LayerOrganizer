@@ -1,4 +1,8 @@
 # Intelligent Layer Classification System
+
+<video src="https://raw.githubusercontent.com/SynkitNET/LayerOrganizer/main/Demo.mp4" controls width="100%"></video>
+
+
 *This plugin was created using Claude Code - I encourage you, the user, to train it yourself and modify the signal system to fit your needs. Refer to the "Hive-Mind" MD file for more context. 
 ---
 ## How to Install
@@ -8,7 +12,7 @@
 *1- Use the Adobe UXP software, and select the manifest file; from there load into Photoshop
 *2- Place the plugin folder inside the UXP folder - Refer to: https://www.youtube.com/watch?v=BY9-3mhR3Vc
 
-https://github.com/SynkitNET/LayerOrganizer/blob/main/Demo.mp4
+
 
 ## Overview
 
