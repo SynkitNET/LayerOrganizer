@@ -1,4 +1,5 @@
 # Intelligent Layer Classification System
+*This plugin was created using Claude Code - I encourage you, the user, to train it yourself and modify the signal system to fit your needs. Refer to the "Hive-Mind" MD file for more context. 
 ---
 ## How to Install
 To install this plugin into your PS, you can do it two ways:
